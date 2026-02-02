@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Socket.IO Chat</title>
+    <style>
+      body { font-family: sans-serif; max-width: 500px; margin: 20px auto; }
+      #chat { border: 1px solid #ccc; height: 250px; overflow-y: auto; padding: 5px; }
+      #status { margin-bottom: 10px; font-weight: bold; }
+      .rooms { display: flex; gap: 8px; margin: 10px 0; }
+      .rooms button { flex: 1; }
+      input, button { width: 100%; margin-top: 5px; }
+    </style>
+  </head>
+
+  <body>
+    <h3>🐈🐈🐈 Soupa chat 🐈🐈🐈</h3>
+    <div id="status">Connected users: 0</div>
+
+    <div class="rooms">
+      <button data-room="meow">Meow room</button>
+      <button data-room="purr">Purr room</button>
+      <button data-room="hiss">Hiss room</button>
+    </div>
+
+    <div id="chat"></div>
+    <input id="msg" placeholder="Type a message..." />
+    <button onclick="send()">Send</button>
+
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="client.js"></script>
+  </body>
+</html>
