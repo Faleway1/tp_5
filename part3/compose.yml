@@ -1,0 +1,23 @@
+services:
+  redis:
+    image: redis:7
+
+  backend:
+    build: ./backend
+    ports:
+      - "127.0.0.1:8080:8080"
+    env_file: ./backend/.env
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - redis
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "127.0.0.1:3000:3000"
+    env_file: ./frontend/.env
+    volumes:
+      - ./frontend:/app
+    depends_on:
+      - backend

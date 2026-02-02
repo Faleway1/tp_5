@@ -1,0 +1,11 @@
+{
+  "name": "tp5-part2-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "live-server --host=0.0.0.0 --port=${PORT:-3000} --watch=./index.html,./client.js"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}

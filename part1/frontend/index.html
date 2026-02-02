@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Raw WebSocket Chat</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 500px;
+      margin: 20px auto;
+    }
+    #chat {
+      border: 1px solid #ccc;
+      height: 250px;
+      overflow-y: auto;
+      padding: 5px;
+    }
+    #status {
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    input, button {
+      width: 100%;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<h3>🐈🐈🐈 Soupa chat 🐈🐈🐈</h3>
+
+<div id="status">Connected users: 0</div>
+<div id="chat"></div>
+
+<input id="msg" placeholder="Type a message..." />
+<button onclick="send()">Send</button>
+
+<script>
+  const chat = document.getElementById("chat");
+  const status = document.getElementById("status");
+
+  const socket = new WebSocket("ws://localhost:8080");
+
+  socket.onopen = () => {
+    console.log("Connected");
+  };
+
+  socket.onmessage = (event) => {
+    console.log("Message received", event.data);
+
+    let payload;
+    try {
+      payload = JSON.parse(event.data);
+    } catch (error) {
+      payload = { type: "chat", message: event.data };
+    }
+
+    if (payload.type === "user_count") {
+      status.textContent = `Connected users: ${payload.count}`;
+      return;
+    }
+
+    if (payload.type === "chat") {
+      const line = document.createElement("div");
+      line.textContent = payload.message;
+      chat.appendChild(line);
+      chat.scrollTop = chat.scrollHeight;
+    }
+  };
+
+  socket.onclose = () => {
+    console.log("Disconnected");
+  };
+
+  function send() {
+    const input = document.getElementById("msg");
+    socket.send(input.value);
+    input.value = "";
+  }
+</script>
+
+</body>
+</html>
